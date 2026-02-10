@@ -1,0 +1,99 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #f8f8f8;
+  color: #1a1a1a;
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+}
+
+/* Scrollbar personalizada */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #7d2e2e;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #6b2626;
+}
+
+/* Componentes customizados */
+@layer components {
+  .btn-primary {
+    @apply bg-primary-500 text-white px-6 py-3 rounded-lg font-medium 
+           hover:bg-primary-600 transition-all duration-300 
+           active:scale-95 shadow-md hover:shadow-lg;
+  }
+
+  .btn-secondary {
+    @apply bg-secondary-200 text-secondary-800 px-6 py-3 rounded-lg font-medium 
+           hover:bg-secondary-300 transition-all duration-300 
+           active:scale-95;
+  }
+
+  .card {
+    @apply bg-white rounded-xl shadow-md overflow-hidden 
+           hover:shadow-xl transition-shadow duration-300;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-3 border border-gray-300 rounded-lg 
+           focus:outline-none focus:ring-2 focus:ring-primary-500 
+           focus:border-transparent transition-all;
+  }
+
+  .container-custom {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+}
+
+/* Animações */
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.animate-on-scroll.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* YouTube embed responsivo */
+.youtube-embed {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 */
+  height: 0;
+  overflow: hidden;
+}
+
+.youtube-embed iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
