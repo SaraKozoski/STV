@@ -1,4 +1,19 @@
 /INSTALACAO_RAPIDA.md
 /README.md
 /database.sql
-node_modules
+node_modulesCertifique-se que tem isso no `.gitignore`:
+```
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Build
+dist/
+dist-ssr/
+
+# Dependencies
+node_modules/
+
+# Logs
+*.log

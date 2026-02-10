@@ -1,11 +1,11 @@
 {
-  "name": "Senador Play",
+  "name": "Senador Play - STV",
   "short_name": "STV",
   "description": "Plataforma educacional de vídeos e notícias",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#7d2e2e",
-  "theme_color": "#7d2e2e",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
   "orientation": "portrait-primary",
   "icons": [
     {
@@ -20,5 +20,7 @@
       "type": "image/png",
       "purpose": "any maskable"
     }
-  ]
+  ],
+  "categories": ["education", "news", "entertainment"],
+  "screenshots": []
 }
