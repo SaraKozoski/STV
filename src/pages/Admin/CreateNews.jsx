@@ -73,6 +73,9 @@ const CreateNews = () => {
   };
 
   return (
+    console.log('=== DADOS DA NOTÍCIA ==='),
+    console.log('Conteúdo PT:', newsData.content_pt),
+    console.log('======================='),
     <div className="min-h-screen bg-gray-50 py-12">
       <div className="container-custom max-w-4xl">
         <h1 className="text-4xl font-bold mb-8 font-display">{t('admin.news_form.title')}</h1>

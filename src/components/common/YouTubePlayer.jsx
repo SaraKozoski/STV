@@ -1,45 +1,29 @@
 import { useState } from 'react';
-import { Play } from 'lucide-react';
 
-const YouTubePlayer = ({ youtubeId, title, autoplay = false }) => {
-  const [isPlaying, setIsPlaying] = useState(autoplay);
+const YouTubePlayer = ({ youtubeId, title, autoplay = false, className = '' }) => {
+  const [isLoading, setIsLoading] = useState(true);
 
-  const getThumbnail = () => {
-    return `https://img.youtube.com/vi/${youtubeId}/maxresdefault.jpg`;
-  };
-
-  if (!isPlaying) {
-    return (
-      <div className="relative w-full aspect-video bg-gray-900 rounded-lg overflow-hidden group cursor-pointer">
-        <img
-          src={getThumbnail()}
-          alt={title}
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-colors flex items-center justify-center">
-          <button
-            onClick={() => setIsPlaying(true)}
-            className="w-20 h-20 bg-white rounded-full flex items-center justify-center group-hover:scale-110 transition-transform shadow-2xl"
-          >
-            <Play className="w-10 h-10 text-primary-500 ml-2" fill="currentColor" />
-          </button>
-        </div>
-        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
-          <h3 className="text-white text-lg font-semibold">{title}</h3>
-        </div>
-      </div>
-    );
-  }
+  const embedUrl = `https://www.youtube.com/embed/${youtubeId}?${autoplay ? 'autoplay=1&' : ''}rel=0&modestbranding=1`;
 
   return (
-    <div className="relative w-full aspect-video bg-gray-900 rounded-lg overflow-hidden">
-      <iframe
-        src={`https://www.youtube.com/embed/${youtubeId}?autoplay=1&rel=0`}
-        title={title}
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowFullScreen
-        className="absolute inset-0 w-full h-full"
-      />
+    <div className={`relative w-full ${className}`}>
+      <div className="relative w-full" style={{ paddingBottom: '56.25%' /* 16:9 Aspect Ratio */ }}>
+        {isLoading && (
+          <div className="absolute inset-0 flex items-center justify-center bg-gray-200 rounded-lg">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
+          </div>
+        )}
+        
+        <iframe
+          src={embedUrl}
+          title={title || 'YouTube video player'}
+          frameBorder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowFullScreen
+          onLoad={() => setIsLoading(false)}
+          className="absolute top-0 left-0 w-full h-full rounded-lg"
+        />
+      </div>
     </div>
   );
 };

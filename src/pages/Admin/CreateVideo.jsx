@@ -54,6 +54,8 @@ const CreateVideo = () => {
         return;
       }
 
+
+
       const { error } = await videosService.create({
         ...formData,
         youtube_id: youtubeId,
@@ -73,8 +75,10 @@ const CreateVideo = () => {
       setLoading(false);
     }
   };
+   
 
   return (
+    
     <div className="min-h-screen bg-gray-50 py-12">
       <div className="container-custom max-w-4xl">
         <h1 className="text-4xl font-bold mb-8 font-display">{t('admin.video_form.title')}</h1>
@@ -119,6 +123,45 @@ const CreateVideo = () => {
                 value={formData.title_es}
                 onChange={(e) => setFormData({ ...formData, title_es: e.target.value })}
                 className="input-field"
+              />
+            </div>
+         </div>
+
+          <div className="grid md:grid-cols-3 gap-4">
+            <div>
+              <label className="block text-sm font-medium mb-2">
+                {t('admin.video_form.description_pt')}
+              </label>
+              <textarea
+                rows={4}
+                value={formData.description_pt}
+                onChange={(e) => setFormData({ ...formData, description_pt: e.target.value })}
+                className="input-field resize-y"
+                placeholder="Digite a descrição em português..."
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-2">
+                {t('admin.video_form.description_en')}
+              </label>
+              <textarea
+                rows={4}
+                value={formData.description_en}
+                onChange={(e) => setFormData({ ...formData, description_en: e.target.value })}
+                className="input-field resize-y"
+                placeholder="Enter description in English..."
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-2">
+                {t('admin.video_form.description_es')}
+              </label>
+              <textarea
+                rows={4}
+                value={formData.description_es}
+                onChange={(e) => setFormData({ ...formData, description_es: e.target.value })}
+                className="input-field resize-y"
+                placeholder="Ingrese la descripción en español..."
               />
             </div>
           </div>

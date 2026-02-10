@@ -1,0 +1,113 @@
+/* 
+  Estilos Adicionais para Senador TV - Modal de Vídeos
+  Adicione este conteúdo ao seu arquivo CSS global ou index.css
+*/
+
+/* Animações personalizadas */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.animate-slideUp {
+  animation: slideUp 0.3s ease-out;
+}
+
+/* Scrollbar personalizada para o modal */
+.modal-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-scrollbar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.modal-scrollbar::-webkit-scrollbar-thumb {
+  background: #667eea;
+  border-radius: 10px;
+}
+
+.modal-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #5568d3;
+}
+
+/* Prevenir scroll do body quando modal está aberto */
+body.modal-open {
+  overflow: hidden;
+}
+
+/* Garantir que o modal fique sobre tudo */
+.modal-overlay {
+  z-index: 9999;
+}
+
+/* Melhorar a aparência do texto em descrições longas */
+.prose {
+  max-width: 100%;
+}
+
+.prose p {
+  margin-bottom: 1rem;
+}
+
+/* Efeito de hover suave nos cards */
+.video-card-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.video-card-hover:hover {
+  transform: translateY(-8px);
+}
+
+/* Garantir que imagens não quebrem o layout */
+.aspect-video {
+  aspect-ratio: 16 / 9;
+}
+
+.aspect-video img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+/* Responsividade adicional */
+@media (max-width: 768px) {
+  .modal-content {
+    max-height: 95vh;
+  }
+  
+  .modal-content h2 {
+    font-size: 1.5rem;
+  }
+}
+
+/* Loading spinner personalizado */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
