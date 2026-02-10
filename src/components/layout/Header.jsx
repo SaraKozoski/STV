@@ -71,6 +71,12 @@ const Header = () => {
             >
               {t('menu.news')}
             </Link>
+            <Link
+              to="/library"
+              className="text-gray-700 hover:text-primary-500 transition-colors font-medium"
+            >
+              📚 Materiais
+            </Link>
             
             {/* Categories Dropdown */}
             <div className="relative group">
@@ -179,6 +185,13 @@ const Header = () => {
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {t('menu.news')}
+              </Link>
+              <Link
+                to="/library"
+                className="text-gray-700 hover:text-primary-500 transition-colors font-medium"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                📚 Materiais
               </Link>
 
               {/* Categories */}

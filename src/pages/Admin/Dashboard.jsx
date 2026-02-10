@@ -21,6 +21,13 @@ const AdminDashboard = () => {
       color: 'from-red-500 to-red-600',
     },
     {
+      title: 'Adicionar Material (PDF)',
+      description: 'Fazer upload de apostilas e materiais de estudo',
+      icon: FileText,
+      link: '/admin/pdf/create',
+      color: 'from-purple-500 to-purple-600',
+    },
+    {
       title: t('admin.manage_subjects'),
       description: 'Gerenciar disciplinas personalizadas',
       icon: BookOpen,

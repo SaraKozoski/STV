@@ -10,9 +10,11 @@ import LoadingSpinner from './components/common/LoadingSpinner';
 import News from './pages/News';
 import NewsDetail from './pages/NewsDetail';
 import CategoryPage from './pages/CategoryPage';
+import PDFLibrary from './pages/PDFLibrary';
 import AdminDashboard from './pages/Admin/Dashboard';
 import CreateNews from './pages/Admin/CreateNews';
 import CreateVideo from './pages/Admin/CreateVideo';
+import CreatePDF from './pages/Admin/CreatePDF';
 import ManageSubjects from './pages/Admin/ManageSubjects';
 
 // Protected Route Component
@@ -78,6 +80,14 @@ function AppRoutes() {
             </Layout>
           }
         />
+        <Route
+          path="/library"
+          element={
+            <Layout>
+              <PDFLibrary />
+            </Layout>
+          }
+        />
         
         {/* Login Route (no header/footer) */}
         <Route path="/login" element={<Login />} />
@@ -109,6 +119,16 @@ function AppRoutes() {
             <ProtectedRoute>
               <Layout>
                 <CreateVideo />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/pdf/create"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <CreatePDF />
               </Layout>
             </ProtectedRoute>
           }

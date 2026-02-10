@@ -146,6 +146,17 @@ export const videosService = {
     return { data, error };
   },
 
+  async getActiveLiveVideo() {
+    const { data, error } = await supabase
+      .rpc('get_active_live_video');
+    
+    if (error || !data || data.length === 0) {
+      return { data: null, error };
+    }
+    
+    return { data: data[0], error: null };
+  },
+
   async create(video) {
     const { data, error } = await supabase
       .from('videos')
@@ -235,6 +246,79 @@ export const newsService = {
   }
 };
 
+// PDFs/Documentos
+export const pdfsService = {
+  async getAll(filters = {}) {
+    let query = supabase
+      .from('pdf_documents')
+      .select(`
+        *,
+        subjects (name_pt, name_en, name_es)
+      `)
+      .order('published_at', { ascending: false });
+
+    if (filters.subject_id) {
+      query = query.eq('subject_id', filters.subject_id);
+    }
+
+    if (filters.is_featured) {
+      query = query.eq('is_featured', true);
+    }
+
+    if (filters.limit) {
+      query = query.limit(filters.limit);
+    }
+
+    const { data, error } = await query;
+    return { data, error };
+  },
+
+  async getById(id) {
+    const { data, error } = await supabase
+      .from('pdf_documents')
+      .select(`
+        *,
+        subjects (name_pt, name_en, name_es)
+      `)
+      .eq('id', id)
+      .single();
+    return { data, error };
+  },
+
+  async create(pdf) {
+    const { data, error } = await supabase
+      .from('pdf_documents')
+      .insert([pdf])
+      .select()
+      .single();
+    return { data, error };
+  },
+
+  async update(id, updates) {
+    const { data, error } = await supabase
+      .from('pdf_documents')
+      .update(updates)
+      .eq('id', id)
+      .select()
+      .single();
+    return { data, error };
+  },
+
+  async delete(id) {
+    const { error } = await supabase
+      .from('pdf_documents')
+      .delete()
+      .eq('id', id);
+    return { error };
+  },
+
+  async incrementDownloads(id) {
+    const { error } = await supabase
+      .rpc('increment_pdf_downloads', { pdf_id: id });
+    return { error };
+  }
+};
+
 // Upload de imagens
 export const storageService = {
   async uploadImage(file, bucket = 'images') {
@@ -267,5 +351,49 @@ export const storageService = {
       console.error('Storage service error:', error);
       return { data: null, error };
     }
-  },};
+  },
 
+  async deleteImage(path, bucket = 'images') {
+    const { error } = await supabase.storage
+      .from(bucket)
+      .remove([path]);
+    return { error };
+  },
+
+  async uploadPDF(file, bucket = 'pdfs') {
+    try {
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Math.random().toString(36).substring(2)}-${Date.now()}.${fileExt}`;
+      const filePath = `${fileName}`;
+
+      const { data: uploadData, error: uploadError } = await supabase.storage
+        .from(bucket)
+        .upload(filePath, file, {
+          cacheControl: '3600',
+          upsert: false
+        });
+
+      if (uploadError) {
+        console.error('PDF Upload error:', uploadError);
+        return { data: null, error: uploadError };
+      }
+
+      const { data: { publicUrl } } = supabase.storage
+        .from(bucket)
+        .getPublicUrl(filePath);
+
+      console.log('PDF uploaded successfully:', publicUrl);
+      return { data: { path: filePath, publicUrl, fileName: file.name, fileSize: file.size }, error: null };
+    } catch (error) {
+      console.error('PDF Storage service error:', error);
+      return { data: null, error };
+    }
+  },
+
+  async deletePDF(path, bucket = 'pdfs') {
+    const { error } = await supabase.storage
+      .from(bucket)
+      .remove([path]);
+    return { error };
+  }
+};

@@ -23,18 +23,27 @@ const Home = () => {
     try {
       setLoading(true);
 
-      // Carregar vídeo mais recente
-      const { data: latest } = await videosService.getLatest();
-      setLatestVideo(latest);
+      // Verificar se há vídeo ao vivo ativo
+      const { data: liveVideo } = await videosService.getActiveLiveVideo();
+      
+      let videoToShow = liveVideo;
+      
+      // Se não houver live ativo, pegar o mais recente
+      if (!liveVideo) {
+        const { data: latest } = await videosService.getLatest();
+        videoToShow = latest;
+      }
+      
+      setLatestVideo(videoToShow);
 
       // Carregar notícias em destaque (máx 5)
       const { data: news } = await newsService.getAll({ is_featured: true, limit: 5 });
       setFeaturedNews(news || []);
 
-      // Carregar vídeos recentes (excluindo o mais recente)
+      // Carregar vídeos recentes (excluindo o que está sendo exibido)
       const { data: videos } = await videosService.getAll({ limit: 9 });
-      if (videos && latest) {
-        setRecentVideos(videos.filter(v => v.id !== latest.id).slice(0, 8));
+      if (videos && videoToShow) {
+        setRecentVideos(videos.filter(v => v.id !== videoToShow.id).slice(0, 8));
       }
     } catch (error) {
       console.error('Error loading data:', error);
@@ -57,9 +66,16 @@ const Home = () => {
       <section className="bg-gradient-to-br from-primary-500 to-primary-700 py-12">
         <div className="container-custom">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-3xl font-bold text-white font-display">
-              {t('home.latest_video')}
-            </h2>
+            <div className="flex items-center gap-3">
+              <h2 className="text-3xl font-bold text-white font-display">
+                {latestVideo?.is_live ? '🔴 AO VIVO' : t('home.latest_video')}
+              </h2>
+              {latestVideo?.is_live && (
+                <span className="px-3 py-1 bg-red-600 text-white text-sm font-bold rounded-full animate-pulse">
+                  LIVE
+                </span>
+              )}
+            </div>
           </div>
           
           {latestVideo ? (
