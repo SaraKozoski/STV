@@ -16,6 +16,7 @@ import CreateNews from './pages/Admin/CreateNews';
 import CreateVideo from './pages/Admin/CreateVideo';
 import CreatePDF from './pages/Admin/CreatePDF';
 import ManageSubjects from './pages/Admin/ManageSubjects';
+import AdminSupporters from './pages/Admin/AdminSupporters';
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -139,6 +140,16 @@ function AppRoutes() {
             <ProtectedRoute>
               <Layout>
                 <ManageSubjects />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/supporters"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <AdminSupporters />
               </Layout>
             </ProtectedRoute>
           }

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { FileText, Video, BookOpen } from 'lucide-react';
+import { FileText, Video, BookOpen, Award } from 'lucide-react';
 
 const AdminDashboard = () => {
   const { t } = useTranslation();
@@ -33,6 +33,13 @@ const AdminDashboard = () => {
       icon: BookOpen,
       link: '/admin/subjects',
       color: 'from-green-500 to-green-600',
+    },
+    {
+      title: 'Gerenciar Apoiadores',
+      description: 'Adicionar e gerenciar empresas apoiadoras do projeto',
+      icon: Award,
+      link: '/admin/supporters',
+      color: 'from-yellow-500 to-orange-600',
     },
   ];
 

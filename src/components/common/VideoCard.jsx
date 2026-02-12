@@ -31,21 +31,19 @@ const VideoCard = ({ video }) => {
   };
 
   const getThumbnail = () => {
-    // YouTube thumbnail de alta qualidade
     return `https://img.youtube.com/vi/${video.youtube_id}/maxresdefault.jpg`;
   };
 
   const openModal = () => {
     setIsModalOpen(true);
-    document.body.style.overflow = 'hidden'; // Prevenir scroll
+    document.body.style.overflow = 'hidden';
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
-    document.body.style.overflow = 'auto'; // Restaurar scroll
+    document.body.style.overflow = 'auto';
   };
 
-  // Fechar modal com tecla ESC
   const handleKeyDown = (e) => {
     if (e.key === 'Escape') {
       closeModal();
@@ -66,7 +64,6 @@ const VideoCard = ({ video }) => {
             alt={getTitle()}
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
             onError={(e) => {
-              // Fallback para thumbnail padrão se maxresdefault não existir
               e.target.src = `https://img.youtube.com/vi/${video.youtube_id}/hqdefault.jpg`;
             }}
           />
@@ -111,14 +108,14 @@ const VideoCard = ({ video }) => {
       {/* Modal */}
       {isModalOpen && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 animate-fadeIn"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 modal-fade-in"
           onClick={closeModal}
           onKeyDown={handleKeyDown}
           tabIndex={0}
         >
           <div
-            className="bg-white rounded-2xl w-full max-w-5xl max-h-[90vh] overflow-y-auto animate-slideUp"
-            onClick={(e) => e.stopPropagation()} // Prevenir fechamento ao clicar no conteúdo
+            className="bg-white rounded-2xl w-full max-w-5xl max-h-[90vh] overflow-y-auto modal-slide-up"
+            onClick={(e) => e.stopPropagation()}
           >
             {/* Botão Fechar */}
             <button
@@ -174,7 +171,7 @@ const VideoCard = ({ video }) => {
                 </p>
               </div>
 
-              {/* Informações adicionais (se houver) */}
+              {/* Informações adicionais */}
               {video.author && (
                 <div className="mt-6 pt-6 border-t border-gray-200">
                   <p className="text-sm text-gray-600">
@@ -186,37 +183,6 @@ const VideoCard = ({ video }) => {
           </div>
         </div>
       )}
-
-      {/* Estilos para animações */}
-      <style jsx>{`
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-          }
-          to {
-            opacity: 1;
-          }
-        }
-
-        @keyframes slideUp {
-          from {
-            transform: translateY(50px);
-            opacity: 0;
-          }
-          to {
-            transform: translateY(0);
-            opacity: 1;
-          }
-        }
-
-        .animate-fadeIn {
-          animation: fadeIn 0.3s ease-out;
-        }
-
-        .animate-slideUp {
-          animation: slideUp 0.3s ease-out;
-        }
-      `}</style>
     </>
   );
 };
