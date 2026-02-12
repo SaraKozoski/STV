@@ -43,14 +43,14 @@ const Header = () => {
   return (
     <header className="bg-white shadow-md sticky top-0 z-50">
       <div className="container-custom">
-        <div className="flex items-center justify-between h-20">
+        <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-3">
-            <div className="w-12 h-12 bg-primary-500 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-xl">STV</span>
+          <Link to="/" className="flex items-center space-x-2">
+            <div className="w-10 h-10 bg-primary-500 rounded-lg flex items-center justify-center">
+              <span className="text-white font-bold text-lg">STV</span>
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-primary-500 font-display">
+              <h1 className="text-xl font-bold text-primary-500 font-display">
                 Senador Play
               </h1>
               <p className="text-xs text-gray-500 -mt-1">STV</p>
@@ -58,7 +58,7 @@ const Header = () => {
           </Link>
 
           {/* Desktop Menu */}
-          <nav className="hidden lg:flex items-center space-x-8">
+          <nav className="hidden lg:flex items-center space-x-6">
             <Link
               to="/"
               className="text-gray-700 hover:text-primary-500 transition-colors font-medium"
@@ -110,14 +110,14 @@ const Header = () => {
           </nav>
 
           {/* Language Selector & Auth */}
-          <div className="hidden lg:flex items-center space-x-4">
+          <div className="hidden lg:flex items-center space-x-3">
             {/* Language Selector */}
             <div className="relative">
               <button
                 onClick={() => setLanguageMenuOpen(!languageMenuOpen)}
-                className="flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors"
+                className="flex items-center space-x-2 px-2 py-1.5 rounded-lg hover:bg-gray-100 transition-colors"
               >
-                <span className="text-2xl">{currentLanguage.flag}</span>
+                <span className="text-xl">{currentLanguage.flag}</span>
                 <ChevronDown className="w-4 h-4 text-gray-600" />
               </button>
               
