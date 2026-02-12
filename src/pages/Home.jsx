@@ -208,21 +208,21 @@ const Home = () => {
               </p>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
+            <div className="flex flex-wrap justify-center gap-8 max-w-7xl mx-auto">
               {supporters.map((supporter) => (
                 <a
                   key={supporter.id}
                   href={supporter.website_url || '#'}
                   target={supporter.website_url ? "_blank" : "_self"}
                   rel={supporter.website_url ? "noopener noreferrer" : undefined}
-                  className="group bg-white rounded-xl p-6 shadow-md hover:shadow-xl transition-all duration-300 flex items-center justify-center border-2 border-gray-100 hover:border-primary-300"
+                  className="group bg-white rounded-xl p-4 shadow-md hover:shadow-xl transition-all duration-300 flex items-center justify-center border-2 border-gray-100 hover:border-primary-300 w-40 h-40"
                   title={supporter.name}
                 >
-                  <div className="relative w-full h-20">
+                  <div className="relative w-full h-full flex items-center justify-center">
                     <img
                       src={supporter.logo_public_url || '/placeholder-logo.svg'}
                       alt={supporter.name}
-                      className="w-full h-full object-contain grayscale group-hover:grayscale-0 transition-all duration-300 opacity-70 group-hover:opacity-100"
+                      className="max-w-full max-h-full object-contain transition-all duration-300"
                       loading="lazy"
                       onError={(e) => {
                         e.target.onerror = null; // Prevenir loop infinito
@@ -244,20 +244,20 @@ const Home = () => {
             </div>
 
             {/* CTA para se tornar apoiador */}
-            <div className="mt-12 text-center">
-              <div className="bg-primary-50 border-2 border-primary-200 rounded-xl p-8 max-w-3xl mx-auto">
-                <h3 className="text-2xl font-bold text-gray-900 mb-3">
+            <div className="mt-10 text-center">
+              <div className="bg-primary-50 border-2 border-primary-200 rounded-xl p-6 max-w-2xl mx-auto">
+                <h3 className="text-xl font-bold text-gray-900 mb-2">
                   Quer se tornar um apoiador?
                 </h3>
-                <p className="text-gray-600 mb-6">
+                <p className="text-gray-600 mb-4 text-sm">
                   Junte-se às empresas que acreditam na educação e cultura. Entre em contato para conhecer as oportunidades de parceria.
                 </p>
                 <a
                   href="https://wa.me/5541999868566"
-                  className="inline-flex items-center gap-2 bg-primary-500 text-white px-8 py-3 rounded-lg hover:bg-primary-600 transition-colors font-semibold shadow-lg hover:shadow-xl"
+                  className="inline-flex items-center gap-2 bg-primary-500 text-white px-6 py-2.5 rounded-lg hover:bg-primary-600 transition-colors font-semibold shadow-lg hover:shadow-xl"
                 >
                   Entre em Contato
-                  <ArrowRight className="w-5 h-5" />
+                  <ArrowRight className="w-4 h-4" />
                 </a>
               </div>
             </div>
