@@ -208,14 +208,14 @@ const Home = () => {
               </p>
             </div>
 
-            <div className="flex flex-wrap justify-center gap-8 max-w-7xl mx-auto">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 sm:gap-6 lg:gap-8 justify-items-center max-w-7xl mx-auto">
               {supporters.map((supporter) => (
                 <a
                   key={supporter.id}
                   href={supporter.website_url || '#'}
                   target={supporter.website_url ? "_blank" : "_self"}
                   rel={supporter.website_url ? "noopener noreferrer" : undefined}
-                  className="group bg-white rounded-xl p-4 shadow-md hover:shadow-xl transition-all duration-300 flex items-center justify-center border-2 border-gray-100 hover:border-primary-300 w-40 h-40"
+                  className="group bg-white rounded-xl p-3 sm:p-4 shadow-md hover:shadow-xl transition-all duration-300 flex items-center justify-center border-2 border-gray-100 hover:border-primary-300 w-full aspect-square"
                   title={supporter.name}
                 >
                   <div className="relative w-full h-full flex items-center justify-center">
