@@ -2,9 +2,19 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Menu, X, ChevronDown, LogOut } from 'lucide-react';
-import { Youtube } from 'lucide-react';
 
 import { useAuth } from '../../contexts/AuthContext';
+
+// YouTube logo component - inline SVG para garantir que funciona em PWA sem depender de arquivo público
+const YouTubeLogo = ({ className = "w-5 h-5" }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path
+      d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"
+      fill="#FF0000"
+    />
+    <polygon points="9.75,15.02 15.5,12 9.75,8.98 9.75,15.02" fill="white" />
+  </svg>
+);
 
 const Header = () => {
   const { t, i18n } = useTranslation();
@@ -42,6 +52,18 @@ const Header = () => {
     { name: t('categories.subjects'), slug: 'disciplinas' },
   ];
 
+  const YouTubeLink = ({ className = "" }) => (
+    <a
+      href="https://www.youtube.com/@EEMSenadorPlay"
+      target="_blank"
+      rel="noopener noreferrer"
+      className={`flex items-center justify-center rounded-lg hover:bg-gray-100 transition-colors ${className}`}
+      aria-label="Canal YouTube Senador Play"
+    >
+      <YouTubeLogo className="w-6 h-6" />
+    </a>
+  );
+
   return (
     <header className="bg-white shadow-md sticky top-0 z-50">
       <div className="container-custom">
@@ -58,7 +80,6 @@ const Header = () => {
               <p className="text-xs text-gray-500 -mt-1">STV</p>
             </div>
           </Link>
-           
 
           {/* Desktop Menu */}
           <nav className="hidden lg:flex items-center space-x-6">
@@ -80,7 +101,7 @@ const Header = () => {
             >
               📚 Materiais
             </Link>
-            
+
             {/* Categories Dropdown */}
             <div className="relative group">
               <button className="text-gray-700 hover:text-primary-500 transition-colors font-medium flex items-center">
@@ -111,17 +132,12 @@ const Header = () => {
               </Link>
             )}
           </nav>
-           
-          {/* Language Selector & Auth */}
+
+          {/* Language Selector & Auth - Desktop */}
           <div className="hidden lg:flex items-center space-x-3">
-            <a
-                href="https://www.youtube.com/@EEMSenadorPlay"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-white/20 transition-colors"
-              >
-                <img src="public\Youtube_logo.png" alt="YouTube Logo"/>
-            </a>
+            {/* YouTube - Desktop */}
+            <YouTubeLink className="w-10 h-10" />
+
             {/* Language Selector */}
             <div className="relative">
               <button
@@ -131,7 +147,7 @@ const Header = () => {
                 <span className="text-xl">{currentLanguage.flag}</span>
                 <ChevronDown className="w-4 h-4 text-gray-600" />
               </button>
-              
+
               {languageMenuOpen && (
                 <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-200">
                   {languages.map((lang) => (
@@ -204,6 +220,18 @@ const Header = () => {
               >
                 📚 Materiais
               </Link>
+
+              {/* YouTube - Mobile */}
+              <a
+                href="https://www.youtube.com/@EEMSenadorPlay"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center space-x-3 text-gray-700 hover:text-red-600 transition-colors font-medium"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <YouTubeLogo className="w-6 h-6" />
+                <span>Canal no YouTube</span>
+              </a>
 
               {/* Categories */}
               <div className="border-l-4 border-primary-500 pl-4">
