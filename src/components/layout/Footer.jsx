@@ -80,7 +80,7 @@ const Footer = () => {
             <h4 className="font-bold text-lg mb-4">Redes Sociais</h4>
             <div className="flex space-x-4">
               <a
-                href="https://youtube.com"
+                href="https://www.youtube.com/@EEMSenadorPlay"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-white/20 transition-colors"

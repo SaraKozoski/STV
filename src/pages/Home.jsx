@@ -208,14 +208,14 @@ const Home = () => {
               </p>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 sm:gap-6 lg:gap-8 justify-items-center max-w-7xl mx-auto">
+            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 gap-3 sm:gap-4 justify-items-center max-w-5xl mx-auto">
               {supporters.map((supporter) => (
                 <a
                   key={supporter.id}
                   href={supporter.website_url || '#'}
                   target={supporter.website_url ? "_blank" : "_self"}
                   rel={supporter.website_url ? "noopener noreferrer" : undefined}
-                  className="group bg-white rounded-xl p-3 sm:p-4 shadow-md hover:shadow-xl transition-all duration-300 flex items-center justify-center border-2 border-gray-100 hover:border-primary-300 w-full aspect-square"
+                  className="group bg-white rounded-lg p-2 sm:p-3 shadow-sm hover:shadow-md transition-all duration-300 flex items-center justify-center border border-gray-100 hover:border-primary-300 w-full aspect-square"
                   title={supporter.name}
                 >
                   <div className="relative w-full h-full flex items-center justify-center">
@@ -225,8 +225,7 @@ const Home = () => {
                       className="max-w-full max-h-full object-contain transition-all duration-300"
                       loading="lazy"
                       onError={(e) => {
-                        e.target.onerror = null; // Prevenir loop infinito
-                        // Criar SVG inline como fallback
+                        e.target.onerror = null;
                         const svg = `data:image/svg+xml,${encodeURIComponent(`
                           <svg width="200" height="80" xmlns="http://www.w3.org/2000/svg">
                             <rect width="200" height="80" fill="#f3f4f6"/>

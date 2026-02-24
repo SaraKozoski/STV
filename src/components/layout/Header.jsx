@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Menu, X, ChevronDown, LogOut } from 'lucide-react';
+import { Youtube } from 'lucide-react';
+
 import { useAuth } from '../../contexts/AuthContext';
 
 const Header = () => {
@@ -56,6 +58,7 @@ const Header = () => {
               <p className="text-xs text-gray-500 -mt-1">STV</p>
             </div>
           </Link>
+           
 
           {/* Desktop Menu */}
           <nav className="hidden lg:flex items-center space-x-6">
@@ -108,9 +111,17 @@ const Header = () => {
               </Link>
             )}
           </nav>
-
+           
           {/* Language Selector & Auth */}
           <div className="hidden lg:flex items-center space-x-3">
+            <a
+                href="https://www.youtube.com/@EEMSenadorPlay"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-white/20 transition-colors"
+              >
+                <img src="src\components\layout\Youtube_logo.png" alt="YouTube Logo"/>
+            </a>
             {/* Language Selector */}
             <div className="relative">
               <button
