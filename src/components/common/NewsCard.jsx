@@ -6,16 +6,14 @@ import { Link } from 'react-router-dom';
 
 const NewsCard = ({ article, featured = false }) => {
   const { t, i18n } = useTranslation();
-  
+
   const locales = { pt: ptBR, en: enUS, es: es };
   const locale = locales[i18n.language] || ptBR;
 
   const title = article[`title_${i18n.language}`] || article.title_pt;
   const content = article[`content_${i18n.language}`] || article.content_pt;
 
-  const formatDate = (date) => {
-    return format(new Date(date), 'dd MMM yyyy', { locale });
-  };
+  const formatDate = (date) => format(new Date(date), 'dd MMM yyyy', { locale });
 
   const truncateText = (text, maxLength) => {
     if (!text) return '';
@@ -23,21 +21,26 @@ const NewsCard = ({ article, featured = false }) => {
     return text.substring(0, maxLength).trim() + '...';
   };
 
+  const Thumbnail = ({ className }) => (
+    article.image_url ? (
+      <img
+        src={article.image_url}
+        alt={title}
+        className={`w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ${className}`}
+      />
+    ) : (
+      <div className={`w-full h-full bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center ${className}`}>
+        <span className="text-white font-bold opacity-50">STV</span>
+      </div>
+    )
+  );
+
+  // Card destaque (notícia principal)
   if (featured) {
     return (
       <Link to={`/news/${article.id}`} className="card group block">
         <div className="relative aspect-video overflow-hidden">
-          {article.image_url ? (
-            <img
-              src={article.image_url}
-              alt={title}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-            />
-          ) : (
-            <div className="w-full h-full bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center">
-              <span className="text-white text-4xl font-bold opacity-50">STV</span>
-            </div>
-          )}
+          <Thumbnail />
           {article.is_featured && (
             <div className="absolute top-4 left-4 bg-primary-500 text-white px-3 py-1 rounded-full text-xs font-semibold">
               Destaque
@@ -48,9 +51,7 @@ const NewsCard = ({ article, featured = false }) => {
           <div className="flex items-center space-x-2 text-sm text-gray-500 mb-3">
             {article.category && (
               <>
-                <span className="text-primary-500 font-medium capitalize">
-                  {article.category}
-                </span>
+                <span className="text-primary-500 font-medium capitalize">{article.category}</span>
                 <span>•</span>
               </>
             )}
@@ -74,29 +75,34 @@ const NewsCard = ({ article, featured = false }) => {
     );
   }
 
+  // Card secundário
   return (
     <Link to={`/news/${article.id}`} className="card group block">
-      <div className="flex flex-col sm:flex-row gap-4">
-        <div className="relative sm:w-48 aspect-video sm:aspect-square overflow-hidden flex-shrink-0">
-          {article.image_url ? (
-            <img
-              src={article.image_url}
-              alt={title}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-            />
-          ) : (
-            <div className="w-full h-full bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center">
-              <span className="text-white text-2xl font-bold opacity-50">STV</span>
-            </div>
-          )}
+      {/* Mobile: foto pequena à esquerda + título */}
+      <div className="flex sm:hidden items-center gap-3 p-3">
+        <div className="relative w-20 h-20 flex-shrink-0 overflow-hidden rounded-lg">
+          <Thumbnail />
         </div>
-        <div className="flex-1 p-4 sm:p-0 sm:py-2">
+        <div className="flex-1 min-w-0">
+          {article.category && (
+            <span className="text-primary-500 font-medium capitalize text-xs">{article.category}</span>
+          )}
+          <h4 className="font-bold text-gray-900 text-sm line-clamp-3 group-hover:text-primary-500 transition-colors mt-0.5">
+            {title}
+          </h4>
+        </div>
+      </div>
+
+      {/* Desktop: layout original horizontal */}
+      <div className="hidden sm:flex gap-4">
+        <div className="relative sm:w-48 aspect-video sm:aspect-square overflow-hidden flex-shrink-0">
+          <Thumbnail />
+        </div>
+        <div className="flex-1 p-0 py-2">
           <div className="flex items-center space-x-2 text-xs text-gray-500 mb-2">
             {article.category && (
               <>
-                <span className="text-primary-500 font-medium capitalize">
-                  {article.category}
-                </span>
+                <span className="text-primary-500 font-medium capitalize">{article.category}</span>
                 <span>•</span>
               </>
             )}
