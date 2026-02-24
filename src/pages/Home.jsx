@@ -242,18 +242,22 @@ const Home = () => {
               ))}
             </div>
 
-            {/* CTA para se tornar apoiador */}
+           {/* CTA para se tornar apoiador */}
             <div className="mt-10 text-center">
-              <div className="bg-primary-50 border-2 border-primary-200 rounded-xl p-6 max-w-2xl mx-auto">
-                <h3 className="text-xl font-bold text-gray-900 mb-2">
+              <div className="bg-primary-50 border-2 border-primary-200 rounded-xl p-3 max-w-xs mx-auto md:p-6 md:max-w-2xl">
+                {/* Título: aparece em ambos */}
+                <h3 className="text-base font-bold text-gray-900 mb-3 md:text-xl md:mb-2">
                   Quer se tornar um apoiador?
                 </h3>
-                <p className="text-gray-600 mb-4 text-sm">
+
+                {/* Descrição: só aparece no desktop */}
+                <p className="hidden md:block text-gray-600 mb-4 text-sm">
                   Junte-se às empresas que acreditam na educação e cultura. Entre em contato para conhecer as oportunidades de parceria.
                 </p>
+
                 <a
                   href="https://wa.me/5541999868566"
-                  className="inline-flex items-center gap-2 bg-primary-500 text-white px-6 py-2.5 rounded-lg hover:bg-primary-600 transition-colors font-semibold shadow-lg hover:shadow-xl"
+                  className="inline-flex items-center gap-2 bg-primary-500 text-white px-5 py-2 rounded-lg hover:bg-primary-600 transition-colors font-semibold shadow-md hover:shadow-xl text-sm md:px-6 md:py-2.5 md:text-base"
                 >
                   Entre em Contato
                   <ArrowRight className="w-4 h-4" />
