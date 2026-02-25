@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ArrowRight, Award } from 'lucide-react';
+import { ArrowRight, Award, Mic, Radio, Trophy, GraduationCap, Clapperboard, Palette, TrendingUp, BookOpen} from 'lucide-react';
 import YouTubePlayer from '../components/common/YouTubePlayer';
 import VideoCard from '../components/common/VideoCard';
 import NewsCard from '../components/common/NewsCard';
 import LoadingSpinner from '../components/common/LoadingSpinner';
 import { supportersService } from '../lib/supportersService';
 import { videosService, newsService } from '../lib/supabase';
+
+
 
 const Home = () => {
   const { t, i18n } = useTranslation();
@@ -170,22 +172,23 @@ const Home = () => {
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
-              { name: t('categories.podcast'), slug: 'podcast', icon: '🎙️' },
-              { name: t('categories.live_events'), slug: 'eventos-ao-vivo', icon: '📡' },
-              { name: t('categories.sports'), slug: 'esporte', icon: '⚽' },
-              { name: t('categories.classes'), slug: 'aulas', icon: '📚' },
-              { name: t('categories.entertainment'), slug: 'entretenimento', icon: '🎬' },
-              { name: t('categories.culture'), slug: 'cultura', icon: '🎭' },
-              { name: t('categories.trending'), slug: 'aulas-do-momento', icon: '🔥' },
-              { name: t('categories.subjects'), slug: 'disciplinas', icon: '📖' },
+              { name: t('categories.podcast'), slug: 'podcast', icon: Mic },
+              { name: t('categories.live_events'), slug: 'eventos-ao-vivo', icon: Radio },
+              { name: t('categories.sports'), slug: 'esporte', icon: Trophy },
+              { name: t('categories.classes'), slug: 'aulas', icon: GraduationCap },
+              { name: t('categories.entertainment'), slug: 'entretenimento', icon: Clapperboard },
+              { name: t('categories.culture'), slug: 'cultura', icon: Palette },
+              { name: t('categories.trending'), slug: 'aulas-do-momento', icon: TrendingUp },
+              { name: t('categories.subjects'), slug: 'disciplinas', icon: BookOpen },
             ].map((category) => (
               <Link
                 key={category.slug}
                 to={`/category/${category.slug}`}
                 className="group bg-gradient-to-br from-primary-50 to-white border-2 border-primary-100 hover:border-primary-500 rounded-xl p-3 md:p-6 text-center transition-all hover:shadow-lg"
               >
-                <div className="text-2xl md:text-4xl mb-1 md:mb-3 group-hover:scale-110 transition-transform">
-                  {category.icon}
+                <div className="flex justify-center mb-1 md:mb-3 group-hover:scale-110 transition-transform text-primary-500">
+                  <category.icon size={20} className="md:hidden" />
+                  <category.icon size={32} className="hidden md:block" />
                 </div>
                 <h3 className="font-semibold text-xs md:text-base text-gray-900 group-hover:text-primary-500 transition-colors">
                   {category.name}
