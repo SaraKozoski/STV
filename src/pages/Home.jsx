@@ -182,7 +182,7 @@ const Home = () => {
               <Link
                 key={category.slug}
                 to={`/category/${category.slug}`}
-                className="group bg-gradient-to-br from-primary-50 to-white border-2 border-primary-100 hover:border-primary-500 rounded-xl p-6 text-center transition-all hover:shadow-lg"
+                className="group bg-gradient-to-br from-primary-50 to-white border-2 border-primary-100 hover:border-primary-500 rounded-xl p-3 md:p-6 text-center transition-all hover:shadow-lg"
               >
                 <div className="text-4xl mb-3 group-hover:scale-110 transition-transform">
                   {category.icon}
