@@ -197,8 +197,11 @@ const Header = () => {
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="lg:hidden py-4 border-t border-gray-200 animate-slide-down">
-            <nav className="flex flex-col space-y-4">
+          <div
+            className="lg:hidden border-t border-gray-200 animate-slide-down overflow-y-auto overscroll-contain"
+            style={{ maxHeight: 'calc(100dvh - 64px)' }}
+          >
+            <nav className="flex flex-col space-y-4 py-4 pb-8">
               <Link
                 to="/"
                 className="text-gray-700 hover:text-primary-500 transition-colors font-medium"
