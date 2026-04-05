@@ -7,6 +7,8 @@ const VideoCard = ({ video, featured = false }) => {
   const { i18n } = useTranslation();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const isShort = video?.is_short ?? false;
+
   const getTitle = () => video[`title_${i18n.language}`] || video.title_pt;
   const getDescription = () => video[`description_${i18n.language}`] || video.description_pt;
   const getCategoryName = () => {
@@ -49,9 +51,92 @@ const VideoCard = ({ video, featured = false }) => {
     />
   );
 
+  // ── Short ─────────────────────────────────────────────────────────────────
+  if (isShort) {
+    return (
+      <>
+        <div
+          onClick={openModal}
+          className="group bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:-translate-y-2 flex flex-col"
+        >
+          {/* Thumbnail 9:16 */}
+          <div className="relative aspect-[9/16] overflow-hidden bg-gray-200">
+            <ThumbnailImg className="group-hover:scale-110 transition-transform duration-300" />
+            <div className="absolute inset-0 bg-black/30 group-hover:bg-black/50 transition-colors flex items-center justify-center">
+              <div className="bg-primary-500 group-hover:bg-primary-600 rounded-full p-3 transform group-hover:scale-110 transition-all">
+                <Play className="w-5 h-5 text-white fill-white" />
+              </div>
+            </div>
+            <div className="absolute top-2 left-2 bg-purple-600 text-white px-2 py-0.5 rounded-full text-xs font-semibold">
+              Short
+            </div>
+          </div>
+          <div className="p-2.5">
+            <h3 className="font-bold text-gray-900 text-xs leading-snug line-clamp-2 group-hover:text-primary-500 transition-colors">
+              {getTitle()}
+            </h3>
+          </div>
+        </div>
+
+        {/* Modal Short — estreito */}
+        {isModalOpen && (
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 modal-fade-in"
+            onClick={closeModal}
+            onKeyDown={handleKeyDown}
+            tabIndex={0}
+          >
+            <div
+              className="bg-white rounded-2xl w-full max-w-sm max-h-[90vh] overflow-y-auto modal-slide-up relative"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                onClick={closeModal}
+                className="absolute top-3 right-3 z-10 bg-white hover:bg-gray-100 rounded-full p-2 shadow-lg transition-all hover:rotate-90"
+                aria-label="Fechar"
+              >
+                <X className="w-5 h-5 text-gray-700" />
+              </button>
+
+              <div className="relative">
+                <YouTubePlayer
+                  youtubeId={video.youtube_id}
+                  title={getTitle()}
+                  autoplay={true}
+                  isShort={true}
+                />
+              </div>
+
+              <div className="p-5">
+                <div className="flex flex-wrap items-center gap-2 mb-3">
+                  <span className="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-xs font-semibold">
+                    Short
+                  </span>
+                  {video.categories && (
+                    <span className="bg-primary-100 text-primary-700 px-3 py-1 rounded-full text-xs font-semibold">
+                      {getCategoryName()}
+                    </span>
+                  )}
+                </div>
+                <h2 className="text-lg font-bold text-gray-900 mb-2">{getTitle()}</h2>
+                {video.created_at && (
+                  <p className="text-sm text-gray-500 mb-4">📅 {formatDate(video.created_at)}</p>
+                )}
+                <p className="text-gray-700 text-sm leading-relaxed whitespace-pre-line">
+                  {getDescription()}
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+      </>
+    );
+  }
+
+  // ── Vídeo normal (original intacto) ───────────────────────────────────────
   return (
     <>
-      {/* MOBILE: thumbnail pequena à esquerda + título (apenas para não-featured) */}
+      {/* MOBILE */}
       {!featured && (
         <div
           onClick={openModal}
@@ -76,26 +161,23 @@ const VideoCard = ({ video, featured = false }) => {
         </div>
       )}
 
-      {/* DESKTOP (ou featured em qualquer tela): card original completo */}
+      {/* DESKTOP */}
       <div
         onClick={openModal}
         className={`${featured ? 'block' : 'hidden sm:block'} group bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:-translate-y-2`}
       >
         <div className="relative aspect-video overflow-hidden bg-gray-200">
           <ThumbnailImg className="group-hover:scale-110 transition-transform duration-300" />
-
           <div className="absolute inset-0 bg-black/30 group-hover:bg-black/50 transition-colors flex items-center justify-center">
             <div className="bg-primary-500 group-hover:bg-primary-600 rounded-full p-4 transform group-hover:scale-110 transition-all">
               <Play className="w-8 h-8 text-white fill-white" />
             </div>
           </div>
-
           {video.categories && (
             <div className="absolute top-3 left-3 bg-primary-500 text-white px-3 py-1 rounded-full text-xs font-semibold">
               {getCategoryName()}
             </div>
           )}
-
           {video.duration && (
             <div className="absolute bottom-3 right-3 bg-black/80 text-white px-2 py-1 rounded text-xs font-medium flex items-center gap-1">
               <Clock className="w-3 h-3" />
@@ -103,7 +185,6 @@ const VideoCard = ({ video, featured = false }) => {
             </div>
           )}
         </div>
-
         <div className="p-4">
           <h3 className="font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-primary-500 transition-colors">
             {getTitle()}
@@ -114,7 +195,7 @@ const VideoCard = ({ video, featured = false }) => {
         </div>
       </div>
 
-      {/* Modal */}
+      {/* Modal normal */}
       {isModalOpen && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 modal-fade-in"
@@ -133,14 +214,11 @@ const VideoCard = ({ video, featured = false }) => {
             >
               <X className="w-6 h-6 text-gray-700" />
             </button>
-
             <div className="relative">
               <YouTubePlayer youtubeId={video.youtube_id} title={getTitle()} autoplay={true} />
             </div>
-
             <div className="p-6 md:p-8">
               <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">{getTitle()}</h2>
-
               <div className="flex flex-wrap items-center gap-3 mb-6">
                 {video.categories && (
                   <span className="bg-primary-100 text-primary-700 px-4 py-2 rounded-full text-sm font-semibold">
@@ -154,13 +232,11 @@ const VideoCard = ({ video, featured = false }) => {
                   {i18n.language === 'pt' ? '🇧🇷 Português' : i18n.language === 'en' ? '🇺🇸 English' : '🇪🇸 Español'}
                 </span>
               </div>
-
               <div className="prose max-w-none">
                 <p className="text-gray-700 text-base leading-relaxed whitespace-pre-line">
                   {getDescription()}
                 </p>
               </div>
-
               {video.author && (
                 <div className="mt-6 pt-6 border-t border-gray-200">
                   <p className="text-sm text-gray-600">
