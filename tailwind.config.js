@@ -8,16 +8,16 @@ export default {
     extend: {
       colors: {
         primary: {
-          50: '#fef2f2',
-          100: '#fee2e2',
-          200: '#fecaca',
-          300: '#fca5a5',
-          400: '#f87171',
-          500: '#7d2e2e', // Cor principal do STV (bordô/marrom escuro)
-          600: '#6b2626',
-          700: '#581f1f',
-          800: '#451919',
-          900: '#331414',
+          50:  '#eeeef6',
+          100: '#d4d5ea',
+          200: '#b0b2d9',
+          300: '#8b8ec8',
+          400: '#6e72b8',
+          500: '#2e317d', // Cor principal (azul escuro)
+          600: '#292c70',
+          700: '#222561',
+          800: '#1b1e4f',
+          900: '#11133a',
         },
         secondary: {
           50: '#f5f5f5',

@@ -9,8 +9,6 @@ import LoadingSpinner from '../components/common/LoadingSpinner';
 import { supportersService } from '../lib/supportersService';
 import { videosService, newsService } from '../lib/supabase';
 
-
-
 const Home = () => {
   const { t, i18n } = useTranslation();
   const [latestVideo, setLatestVideo] = useState(null);
