@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ArrowRight, Award, Mic, Radio, Trophy, GraduationCap, Clapperboard, Palette, TrendingUp, BookOpen} from 'lucide-react';
+import { ArrowRight, Award, Mic, Radio, Trophy, GraduationCap, Clapperboard, Palette, TrendingUp, BookOpen } from 'lucide-react';
 import YouTubePlayer from '../components/common/YouTubePlayer';
 import VideoCard from '../components/common/VideoCard';
 import NewsCard from '../components/common/NewsCard';
@@ -31,7 +31,7 @@ const Home = () => {
       const { data: news } = await newsService.getAll({ is_featured: true, limit: 5 });
       setFeaturedNews(news || []);
 
-      const { data: videos } = await videosService.getAll({ limit: 5 });
+      const { data: videos } = await videosService.getAll({ limit: 9 });
       if (videos && latest) {
         setRecentVideos(videos.filter(v => v.id !== latest.id).slice(0, 8));
       }
@@ -49,6 +49,9 @@ const Home = () => {
 
   const getTitle = (item) => item[`title_${i18n.language}`] || item.title_pt;
 
+  const normalVideos = recentVideos.filter(v => !v.is_short);
+  const shortVideos  = recentVideos.filter(v => v.is_short);
+
   return (
     <div className="min-h-screen bg-gray-50">
 
@@ -63,10 +66,19 @@ const Home = () => {
             <>
               {/* Desktop */}
               <div className="hidden lg:grid lg:grid-cols-3 gap-8">
-                <div className="lg:col-span-2">
-                  <YouTubePlayer youtubeId={latestVideo.youtube_id} title={getTitle(latestVideo)} />
+                <div className={latestVideo.is_short ? 'lg:col-span-1 max-w-xs mx-auto w-full' : 'lg:col-span-2'}>
+                  <YouTubePlayer
+                    youtubeId={latestVideo.youtube_id}
+                    title={getTitle(latestVideo)}
+                    isShort={latestVideo.is_short}
+                  />
                 </div>
-                <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 text-white">
+                <div className={`bg-white/10 backdrop-blur-sm rounded-xl p-6 text-white ${latestVideo.is_short ? 'lg:col-span-2' : ''}`}>
+                  {latestVideo.is_short && (
+                    <span className="inline-block bg-purple-500 text-white px-3 py-1 rounded-full text-xs font-semibold mb-3">
+                      Short
+                    </span>
+                  )}
                   <h3 className="text-2xl font-bold mb-4">{getTitle(latestVideo)}</h3>
                   <p className="text-white/90 mb-6 line-clamp-6">
                     {latestVideo[`description_${i18n.language}`] || latestVideo.description_pt}
@@ -81,7 +93,13 @@ const Home = () => {
 
               {/* Mobile */}
               <div className="flex lg:hidden flex-col gap-4">
-                <YouTubePlayer youtubeId={latestVideo.youtube_id} title={getTitle(latestVideo)} />
+                <div className={latestVideo.is_short ? 'max-w-[220px] mx-auto w-full' : ''}>
+                  <YouTubePlayer
+                    youtubeId={latestVideo.youtube_id}
+                    title={getTitle(latestVideo)}
+                    isShort={latestVideo.is_short}
+                  />
+                </div>
                 <div className="flex items-center justify-between">
                   {latestVideo.categories && (
                     <div className="inline-block bg-white/20 px-4 py-2 rounded-full text-sm font-medium text-white">
@@ -153,11 +171,34 @@ const Home = () => {
             <h2 className="text-3xl font-bold text-gray-900 font-display mb-8">
               Vídeos Recentes
             </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {recentVideos.map((video, index) => (
-                <VideoCard key={video.id} video={video} featured={index === 0} />
-              ))}
-            </div>
+
+            {/* Vídeos normais */}
+            {normalVideos.length > 0 && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {normalVideos.map((video, index) => (
+                  <VideoCard key={video.id} video={video} featured={index === 0} />
+                ))}
+              </div>
+            )}
+
+            {/* Shorts */}
+            {shortVideos.length > 0 && (
+              <>
+                <div className="flex items-center gap-2 mt-10 mb-5">
+                  <span className="bg-purple-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                    Shorts
+                  </span>
+                </div>
+                <div
+                  className="grid gap-4"
+                  style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 180px))' }}
+                >
+                  {shortVideos.map((video) => (
+                    <VideoCard key={video.id} video={video} />
+                  ))}
+                </div>
+              </>
+            )}
           </div>
         </section>
       )}
@@ -170,14 +211,14 @@ const Home = () => {
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
-              { name: t('categories.podcast'), slug: 'podcast', icon: Mic },
-              { name: t('categories.live_events'), slug: 'eventos-ao-vivo', icon: Radio },
-              { name: t('categories.sports'), slug: 'esporte', icon: Trophy },
-              { name: t('categories.classes'), slug: 'aulas', icon: GraduationCap },
-              { name: t('categories.entertainment'), slug: 'entretenimento', icon: Clapperboard },
-              { name: t('categories.culture'), slug: 'cultura', icon: Palette },
-              { name: t('categories.trending'), slug: 'aulas-do-momento', icon: TrendingUp },
-              { name: t('categories.subjects'), slug: 'disciplinas', icon: BookOpen },
+              { name: t('categories.podcast'),       slug: 'podcast',          icon: Mic },
+              { name: t('categories.live_events'),   slug: 'eventos-ao-vivo',  icon: Radio },
+              { name: t('categories.sports'),        slug: 'esporte',          icon: Trophy },
+              { name: t('categories.classes'),       slug: 'aulas',            icon: GraduationCap },
+              { name: t('categories.entertainment'), slug: 'entretenimento',   icon: Clapperboard },
+              { name: t('categories.culture'),       slug: 'cultura',          icon: Palette },
+              { name: t('categories.trending'),      slug: 'aulas-do-momento', icon: TrendingUp },
+              { name: t('categories.subjects'),      slug: 'disciplinas',      icon: BookOpen },
             ].map((category) => (
               <Link
                 key={category.slug}
@@ -240,7 +281,6 @@ const Home = () => {
               ))}
             </div>
 
-            {/* CTA Apoiador */}
             <div className="mt-10 text-center">
               <div className="bg-primary-50 border-2 border-primary-200 rounded-xl p-3 max-w-xs mx-auto md:p-6 md:max-w-2xl">
                 <h3 className="text-base font-bold text-gray-900 mb-3 md:text-xl md:mb-2">
@@ -261,7 +301,6 @@ const Home = () => {
           </div>
         </section>
       )}
-
     </div>
   );
 };
